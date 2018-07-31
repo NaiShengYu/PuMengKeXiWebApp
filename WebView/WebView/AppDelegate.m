@@ -16,7 +16,6 @@
 @interface AppDelegate ()<WXApiDelegate>
 
 @end
-
 @implementation AppDelegate
 
 
@@ -95,6 +94,9 @@ if ([url.host isEqualToString:@"safepay"]) {
     [[AlipaySDK defaultService] processOrderWithPaymentResult:url standbyCallback:^(NSDictionary *resultDic) {
         if ([resultDic[@"resultStatus"] integerValue]==9000) {
             [[NSNotificationCenter defaultCenter] postNotificationName:@"paySuccess" object:nil];
+        }else{
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"payFails" object:nil];
+
         }
 
         
@@ -123,6 +125,9 @@ if ([url.host isEqualToString:@"safepay"]) {
         //  [self alip]
         if ([resultDic[@"resultStatus"] integerValue]==9000) {
             [[NSNotificationCenter defaultCenter] postNotificationName:@"paySuccess" object:nil];
+        }else{
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"payFails" object:nil];
+            
         }
         
     }];

@@ -57,7 +57,6 @@
     [_webView setMediaPlaybackRequiresUserAction:NO];
     [self.view addSubview:_webView];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(wxPaySuccess) name:@"paySuccess" object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(aliaySuccess) name:@"AlipaySuccess" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(wxPayFails) name:@"payFails" object:nil];
 }
 
@@ -85,12 +84,10 @@
 }
 - (void)wxPayFails{
     NSLog(@"失败了");
-    [self.webView stringByEvaluatingJavaScriptFromString:@"wxpay_back()"];
+    [self.webView stringByEvaluatingJavaScriptFromString:@"pay_fail()"];
     
 }
-- (void)aliaySuccess{
-    [self.webView stringByEvaluatingJavaScriptFromString:@"alipay_back()"];
-}
+
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView{
     
