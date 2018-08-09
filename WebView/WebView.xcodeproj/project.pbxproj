@@ -18,6 +18,7 @@
 		C958A3D81FF6268C00D6BD7A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = C958A3D71FF6268C00D6BD7A /* main.m */; };
 		C958A3E21FF6268C00D6BD7A /* WebViewTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C958A3E11FF6268C00D6BD7A /* WebViewTests.m */; };
 		C958A3ED1FF6268C00D6BD7A /* WebViewUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = C958A3EC1FF6268C00D6BD7A /* WebViewUITests.m */; };
+		C9E9EB68211C323E0065A147 /* CustomAccount.m in Sources */ = {isa = PBXBuildFile; fileRef = C9E9EB67211C323E0065A147 /* CustomAccount.m */; };
 		C9FE48D1206B9FD300D39390 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = C9FE48D0206B9FD300D39390 /* libc++.tbd */; };
 		C9FE48D3206B9FE400D39390 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = C9FE48D2206B9FE400D39390 /* libz.tbd */; };
 		C9FE48D5206B9FEE00D39390 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9FE48D4206B9FEE00D39390 /* SystemConfiguration.framework */; };
@@ -77,6 +78,8 @@
 		C958A3E81FF6268C00D6BD7A /* WebViewUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WebViewUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C958A3EC1FF6268C00D6BD7A /* WebViewUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WebViewUITests.m; sourceTree = "<group>"; };
 		C958A3EE1FF6268C00D6BD7A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C9E9EB66211C323E0065A147 /* CustomAccount.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomAccount.h; sourceTree = "<group>"; };
+		C9E9EB67211C323E0065A147 /* CustomAccount.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomAccount.m; sourceTree = "<group>"; };
 		C9FE48D0206B9FD300D39390 /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
 		C9FE48D2206B9FE400D39390 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		C9FE48D4206B9FEE00D39390 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
@@ -186,6 +189,8 @@
 		C958A3C71FF6268C00D6BD7A /* WebView */ = {
 			isa = PBXGroup;
 			children = (
+				C9E9EB66211C323E0065A147 /* CustomAccount.h */,
+				C9E9EB67211C323E0065A147 /* CustomAccount.m */,
 				26336B2A210D8B160036CD07 /* UIView+SDExtension.h */,
 				26336B2B210D8B160036CD07 /* UIView+SDExtension.m */,
 				26336B27210D8AF20036CD07 /* ScanningViewController.h */,
@@ -409,6 +414,7 @@
 				26336B2C210D8B160036CD07 /* UIView+SDExtension.m in Sources */,
 				26336B29210D8AF20036CD07 /* ScanningViewController.m in Sources */,
 				2614EA3A1FF6685F001AFF3E /* JSAndOCTask.m in Sources */,
+				C9E9EB68211C323E0065A147 /* CustomAccount.m in Sources */,
 				C958A3D81FF6268C00D6BD7A /* main.m in Sources */,
 				C958A3CA1FF6268C00D6BD7A /* AppDelegate.m in Sources */,
 			);

@@ -2,6 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>铺萌客喜为了获取您当前位置</string>
 	<key>NSCameraUsageDescription</key>
 	<string>铺盟客喜为了扫描二维码需要访问您的相机</string>
 	<key>CFBundleDevelopmentRegion</key>

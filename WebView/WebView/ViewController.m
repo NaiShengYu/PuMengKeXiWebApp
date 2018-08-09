@@ -19,7 +19,7 @@
 #import <AlipaySDK/AlipaySDK.h>
 
 #import "ScanningViewController.h"
-
+#import "CustomAccount.h"
 #define screenWigth [[UIScreen mainScreen] bounds].size.width
 #define screenHeight [[UIScreen mainScreen] bounds].size.height
 @interface ViewController ()<UIWebViewDelegate,TestJSObjectProtocol>
@@ -72,26 +72,8 @@
 
 - (void)webViewDidStartLoad:(UIWebView *)webView{
     
-    NSLog(@"开始调用了");    
-}
-
-- (void)wxPaySuccess{
-    NSLog(@"成功了");
-    NSString *pay =[NSString stringWithFormat:@"pay_back(%@)",self.oid];
-    NSLog(@"成功后调用：%@",pay);
-    [self.webView stringByEvaluatingJavaScriptFromString:pay];
-
-}
-- (void)wxPayFails{
-    NSLog(@"失败了");
-    [self.webView stringByEvaluatingJavaScriptFromString:@"pay_fail()"];
+    NSLog(@"开始调用了");
     
-}
-
-
-- (void)webViewDidFinishLoad:(UIWebView *)webView{
-    
-    NSLog(@"结束调用了");
     JSContext *context =[webView valueForKeyPath:@"documentView.webView.mainFrame.javaScriptContext"];
     JSAndOCTask *testJO=[JSAndOCTask new];
     __weak __typeof(&*self)blockSelf = self;
@@ -111,7 +93,7 @@
                     case SSDKResponseStateSuccess:
                     {
                         [blockSelf.webView stringByEvaluatingJavaScriptFromString:@"share_success()"];
-
+                        
                         break;
                     }
                     case SSDKResponseStateFail:
@@ -128,9 +110,9 @@
                         break;
                 }
             }];
-        
+            
         }];
-       
+        
     };
     testJO.apiPayBlock = ^(NSString *url) {
         [blockSelf zhifubaoPay:url];
@@ -140,13 +122,33 @@
     };
     testJO.scanBlok = ^{
         [blockSelf scanning];
-        
-     
-        
-        
+    };
+    
+    testJO.startLocationBlok = ^{
+//        [blockSelf getLocation];
     };
     
     context[@"webapp"] =testJO;
+    
+}
+
+- (void)wxPaySuccess{
+    NSLog(@"成功了");
+    NSString *pay =[NSString stringWithFormat:@"pay_back(%@)",self.oid];
+    NSLog(@"成功后调用：%@",pay);
+    [self.webView stringByEvaluatingJavaScriptFromString:pay];
+
+}
+- (void)wxPayFails{
+    NSLog(@"失败了");
+    [self.webView stringByEvaluatingJavaScriptFromString:@"pay_fail()"];
+}
+
+
+- (void)webViewDidFinishLoad:(UIWebView *)webView{
+    
+    NSLog(@"结束调用了");
+  
     
 }
 
@@ -204,6 +206,20 @@
     });
   
     
+}
+
+- (void)getLocation{
+    __weak __typeof(&*self)blockSelf = self;
+
+    NSString *location = [NSString stringWithFormat:@"getLatlng(%f,%f)",[CustomAccount sharedCustomAccount].lat,[CustomAccount sharedCustomAccount].lng];
+    NSLog(@"定位的经纬度：%@",location);
+        // UI更新代码
+    
+    [[NSOperationQueue mainQueue] addOperationWithBlock:^{//在主线程中调用
+        [self.webView stringByEvaluatingJavaScriptFromString:location];
+
+    }];
+
 }
 
 @end
