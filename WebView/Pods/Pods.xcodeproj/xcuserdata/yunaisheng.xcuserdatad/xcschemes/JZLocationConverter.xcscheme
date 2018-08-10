@@ -14,10 +14,10 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "9F99AB3B67956B8DC39E3C896B560CD4"
-               BlueprintName = "Pods-WebView"
+               BlueprintIdentifier = "24179B871C4A692762C1727D40D06E39"
+               BlueprintName = "JZLocationConverter"
                ReferencedContainer = "container:Pods.xcodeproj"
-               BuildableName = "libPods-WebView.a">
+               BuildableName = "libJZLocationConverter.a">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>

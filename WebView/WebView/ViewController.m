@@ -19,7 +19,7 @@
 #import <AlipaySDK/AlipaySDK.h>
 
 #import "ScanningViewController.h"
-
+#import "CustomAccount.h"
 #define screenWigth [[UIScreen mainScreen] bounds].size.width
 #define screenHeight [[UIScreen mainScreen] bounds].size.height
 @interface ViewController ()<UIWebViewDelegate,TestJSObjectProtocol>
@@ -72,7 +72,10 @@
 
 - (void)webViewDidStartLoad:(UIWebView *)webView{
     
-    NSLog(@"开始调用了");    
+    NSLog(@"开始调用了");
+    
+  
+    
 }
 
 - (void)wxPaySuccess{
@@ -85,7 +88,6 @@
 - (void)wxPayFails{
     NSLog(@"失败了");
     [self.webView stringByEvaluatingJavaScriptFromString:@"pay_fail()"];
-    
 }
 
 
@@ -111,7 +113,7 @@
                     case SSDKResponseStateSuccess:
                     {
                         [blockSelf.webView stringByEvaluatingJavaScriptFromString:@"share_success()"];
-
+                        
                         break;
                     }
                     case SSDKResponseStateFail:
@@ -128,9 +130,9 @@
                         break;
                 }
             }];
-        
+            
         }];
-       
+        
     };
     testJO.apiPayBlock = ^(NSString *url) {
         [blockSelf zhifubaoPay:url];
@@ -140,12 +142,12 @@
     };
     testJO.scanBlok = ^{
         [blockSelf scanning];
-        
-     
-        
-        
     };
     
+//    testJO.startLocationBlok = ^{
+//        //
+//    };
+     [blockSelf getLocation];
     context[@"webapp"] =testJO;
     
 }
@@ -204,6 +206,20 @@
     });
   
     
+}
+
+- (void)getLocation{
+    __weak __typeof(&*self)blockSelf = self;
+
+    NSString *location = [NSString stringWithFormat:@"getLatlng(%f,%f)",[CustomAccount sharedCustomAccount].lat,[CustomAccount sharedCustomAccount].lng];
+    NSLog(@"定位的经纬度：%@",location);
+        // UI更新代码
+    
+//    [[NSOperationQueue mainQueue] addOperationWithBlock:^{//在主线程中调用
+        [self.webView stringByEvaluatingJavaScriptFromString:location];
+
+//    }];
+
 }
 
 @end

@@ -25,6 +25,7 @@
 
 - (void)scan;
 
+- (void)startLocation;
 
 @end
 @interface JSAndOCTask : NSObject <TestJSObjectProtocol>
@@ -36,5 +37,7 @@
 @property (nonatomic,copy)void (^wxPayBlok)(NSString *oid);
 
 @property (nonatomic,copy)void (^scanBlok)(void);
+
+@property (nonatomic,copy)void (^startLocationBlok)(void);
 
 @end

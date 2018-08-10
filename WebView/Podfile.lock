@@ -14,6 +14,7 @@ PODS:
   - AFNetworking/Serialization (3.0.4)
   - AFNetworking/UIKit (3.0.4):
     - AFNetworking/NSURLSession
+  - JZLocationConverter (1.0.0)
   - mob_sharesdk (4.0.7):
     - mob_sharesdk/ShareSDK (= 4.0.7)
     - MOBFoundation
@@ -36,6 +37,7 @@ PODS:
 
 DEPENDENCIES:
   - AFNetworking
+  - JZLocationConverter
   - mob_sharesdk
   - mob_sharesdk/ShareSDKConfigFile
   - mob_sharesdk/ShareSDKExtension
@@ -46,16 +48,18 @@ DEPENDENCIES:
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - AFNetworking
+    - JZLocationConverter
     - mob_sharesdk
     - MOBFoundation
     - SVProgressHUD
 
 SPEC CHECKSUMS:
   AFNetworking: a0075feb321559dc78d9d85b55d11caa19eabb93
+  JZLocationConverter: 3d816bee6484aed9c155a6045a02ce444833e2f0
   mob_sharesdk: 91a81feb5a5552947b809ccae1e4806655cc842c
   MOBFoundation: 82b27b95c37d5a6d874d58efa6365b465c8afcbf
   SVProgressHUD: 1428aafac632c1f86f62aa4243ec12008d7a51d6
 
-PODFILE CHECKSUM: b93db8bec8fd97781e5d0704a48b1495efb266cb
+PODFILE CHECKSUM: dc3128e6a4368708c68745d371f9b2fa72ddd39a
 
 COCOAPODS: 1.5.3

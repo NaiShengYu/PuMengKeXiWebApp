@@ -78,9 +78,14 @@
     if (self.scanBlok) {
         self.scanBlok();
     }
-    
-    
 }
 
+- (void)startLocation{
+    
+    if (self.startLocationBlok) {
+        self.startLocationBlok();
+    }
+    
+}
 
 @end

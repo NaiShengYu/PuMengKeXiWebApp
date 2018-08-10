@@ -13,7 +13,14 @@
 #import <AlipaySDK/AlipaySDK.h>
 #import "ViewController.h"
 #import "ScanningViewController.h"
-@interface AppDelegate ()<WXApiDelegate>
+#import <CoreData/CoreData.h>
+#import <CoreLocation/CoreLocation.h>
+#import "CustomAccount.h"
+#import <AFNetworking.h>
+#import <JZLocationConverter.h>
+
+@interface AppDelegate ()<WXApiDelegate,CLLocationManagerDelegate>
+@property (nonatomic,strong)CLLocationManager *locationManager;
 
 @end
 @implementation AppDelegate
@@ -28,7 +35,14 @@
     _window.rootViewController =nav;
     
     
-    
+    if (self.locationManager == nil) {
+        self.locationManager = [[CLLocationManager alloc]init];
+    }
+    self.locationManager.delegate =self;
+    [self.locationManager requestWhenInUseAuthorization];
+    self.locationManager.desiredAccuracy = kCLLocationAccuracyBest;//最精确的定位
+    self.locationManager.distanceFilter = kCLDistanceFilterNone; // 默认是kCLDistanceFilterNone，也可以设置其他值，表示用户移动的距离小于该范围内就不会接收到通知
+    [self.locationManager startUpdatingLocation];
     
 [ShareSDK registerActivePlatforms:@[
                                     @(SSDKPlatformTypeWechat)
@@ -68,6 +82,29 @@
 
 return YES;
 }
+
+
+
+
+- (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray<CLLocation *> *)locations{
+    CLLocation *curLocation = [locations lastObject];
+    // 通过location  或得到当前位置的经纬度
+//    CLLocationCoordinate2D curCoordinate2D = [self getBaiDuCoordinateByGaoDeCoordinate:curLocation.coordinate];
+    CLLocationCoordinate2D curCoordinate2D = [JZLocationConverter wgs84ToBd09:curLocation.coordinate ];
+    
+    [CustomAccount sharedCustomAccount].lat = curCoordinate2D.latitude;
+    [CustomAccount sharedCustomAccount].lng = curCoordinate2D.longitude;
+    
+ 
+      
+    
+    
+}
+
+
+
+
+
 - (void)onResp:(BaseResp *)resp{
 
 if ([resp isKindOfClass:[PayResp class]]){
