@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <JavaScriptCore/JavaScriptCore.h>
-
+#import <MapKit/MapKit.h>
 @protocol TestJSObjectProtocol <JSExport>
 
 //微信分享
@@ -27,6 +27,8 @@
 
 - (void)startLocation;
 
+- (void)dhmap:(NSString *)lacation;
+
 @end
 @interface JSAndOCTask : NSObject <TestJSObjectProtocol>
 
@@ -40,4 +42,5 @@
 
 @property (nonatomic,copy)void (^startLocationBlok)(void);
 
+@property (nonatomic,copy)void (^dhmap)(CLLocationCoordinate2D location);
 @end

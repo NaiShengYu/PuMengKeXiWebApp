@@ -88,4 +88,24 @@
     
 }
 
+- (void)dhmap:(NSString *)lacation{
+    @try {
+        NSArray *arr = [lacation componentsSeparatedByString:@","];
+       CLLocationCoordinate2D position =  CLLocationCoordinate2DMake([arr[0] doubleValue], [arr[1] doubleValue]);
+        
+        if (self.dhmap) {
+            self.dhmap(position);
+        }
+        
+        
+    } @catch (NSException *exception) {
+        
+    } @finally {
+        
+    }
+   
+    
+    
+}
+
 @end
