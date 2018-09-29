@@ -17,6 +17,9 @@
 #import <WXApiObject.h>
 
 #import <AlipaySDK/AlipaySDK.h>
+#import "APAuthInfo.h"
+#import "APRSASigner.h"
+
 #import <MapKit/MapKit.h>
 #import "ScanningViewController.h"
 #import "CustomAccount.h"
@@ -58,6 +61,9 @@
     [self.view addSubview:_webView];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(wxPaySuccess) name:@"paySuccess" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(wxPayFails) name:@"payFails" object:nil];
+    
+    
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated{
@@ -92,7 +98,6 @@
 
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView{
-    
     NSLog(@"结束调用了");
     JSContext *context =[webView valueForKeyPath:@"documentView.webView.mainFrame.javaScriptContext"];
     JSAndOCTask *testJO=[JSAndOCTask new];
@@ -177,7 +182,6 @@
         
     }];
     
-   
 }
 
 - (void)wxLogin{
@@ -352,9 +356,109 @@
     
     [MKMapItem openMapsWithItems:items launchOptions:dic];
     
-    
-    
 }
+
+
+
+#pragma mark -
+#pragma mark   ==============点击模拟授权行为==============
+
+- (void)doAPAuth
+{
+    // 重要说明
+    // 这里只是为了方便直接向商户展示支付宝的整个支付流程；所以Demo中加签过程直接放在客户端完成；
+    // 真实App里，privateKey等数据严禁放在客户端，加签过程务必要放在服务端完成；
+    // 防止商户私密数据泄露，造成不必要的资金损失，及面临各种安全风险；
+    /*============================================================================*/
+    /*=======================需要填写商户app申请的===================================*/
+    /*============================================================================*/
+    NSString *pid = @"2088131502634896";
+    NSString *appID = @"2018062060395745";
+    
+    // 如下私钥，rsa2PrivateKey 或者 rsaPrivateKey 只需要填入一个
+    // 如果商户两个都设置了，优先使用 rsa2PrivateKey
+    // rsa2PrivateKey 可以保证商户交易在更加安全的环境下进行，建议使用 rsa2PrivateKey
+    // 获取 rsa2PrivateKey，建议使用支付宝提供的公私钥生成工具生成，
+    // 工具地址：https://doc.open.alipay.com/docs/doc.htm?treeId=291&articleId=106097&docType=1
+    NSString *rsa2PrivateKey = @"MIIEpAIBAAKCAQEAztfMqelirEobdWHKva/rAM40U0jUw86XqW+KSIR1m6s45ttn5fa08Cr55VuhSiJiLuMnq+xGwBH/13dXnQWiv/VT1eKAb65dEX4qKA/7FtEhRInYjCh74IieW2OPMnAOMIwDiTTg5r9Os8BOeoZCjeh10fU27lFNCvwLujH9XNa1jEghqmqssH1KqGe+HTMi27j+Ubys1QQZ8bBl/hICccZIN/il8W6A0SGWuqylm/Ri6l9nVkRQCHHeosH/4vSBiRtU5iApuPyy+9uM5BdmbviwYe2Xj2d6aP8SPx5vBygpG6v/pM5/8izY5NrHwJvyb+173UE6zdf4O5p5hhrcYwIDAQABAoIBAQDGUXpV3wNQla1GGoE85hK4Lv1UbRwysT4QonU/mmD45G4mSm+Pub86FrqLAhPe9KCWvA0pdd1QAvH+MNq8Hs8wpZPAGu9yJQfu4byhtNDVy6XOBSyvFZHQcq0Ciq6deXrhaR1qzFxmYT6gcd3M9DWTwjJVIHuOfD0WLxs/Zva5rxfWJCv9IWSumUOzRV2kOGxQwXn3OJJ0i/tGAjgdmzrQl+vLvzz1vRhgLRR3b6kvMxzZ0KbqVvl/ba2z6xWuMS4Z9dOUYqbdeuUVbL9ndKa7/Py3sXUJ5RlW6pMmmdWRUiVadC29iwkVWsDjFhfB1/LpGz40nI3TIG4EO6eeaRmhAoGBAP6Q/MKhWEQqjLNKX1HYuBtm6E0EICqz025Z6WNQ9sA4woTqkyLAZiFDqZ5BLCyVOvwmIifb36RQGiFGiq5ZBMSRP43I4eZ93gou/ntqcc0t0WJ1bIkB0BOmbAaQmlrWdOgSeWWazFVUWoAj6SgsfJc2MSPcEk4MXxpzkvbNBsZ9AoGBANACAizrMesKgMW6djESkpduHC7EKEJj0O4CRKnL4HF7o7Xb8etWeTNqs9dG2iY2cFgxnU/s3iDhn/XvTdmTbPVbci/scVasB8Cj/Bfcz2gBE8dHwUtTMVcZYrfp2NodA+00cSmrILH5BFW7OlveC0rcElOKPbIbOTU9y+pTtkRfAoGAC7UTSsgszQW/7sbu107GOMxkxpX3/L7EbIDKEP06O+DgYUiAd8qtZ7464MJSi8JZMht22qpsAJyGdx1NZ3NEmt2rNJQWf4kuWv2KSpa8oRkIViTcVvi0XxL6SNsBnkfanIms95VE7G+ysc30/Rn+qN2fKO0IEnrTLN4/1gXb1+kCgYBg1E6G8oWuUJlZck+K0IaFD7D25EGJhkXARjYIhOvaaB/xjI21a+/Hy6gkUstCdp0dsRr2FeHhlKaOKfQnkMVsAkHJpVutaS/CsZOs2BGE7Nt0LScCFZwmW57k1msoPdGSHpN/PjZeIvmtnxavpVHEa2XslbHas2mSK049qvJyKQKBgQC/F9W+bZ0Xd78GOpPn21/lE9fopE/o9Xxv87vmkCKQOQMfpdTTkiW2iDhdCZSbcet6NzU0aIjtglmMGLkxnaaDnjWgpRswJNgJk6Rd2k4ez3Bj1ypBnGdu5UEG6psCPMIHtNFCPMO/kwBT6ZziQXqsbqMNANLovtl8gLiXMw7C3w==";
+    NSString *rsaPrivateKey = @"";
+    /*============================================================================*/
+    /*============================================================================*/
+    /*============================================================================*/
+    
+    //pid和appID获取失败,提示
+    if ([pid length] == 0 ||
+        [appID length] == 0 ||
+        ([rsa2PrivateKey length] == 0 && [rsaPrivateKey length] == 0))
+    {
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"提示"
+                                                                       message:@"缺少pid或者appID或者私钥,请检查参数设置"
+                                                                preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *action = [UIAlertAction actionWithTitle:@"知道了"
+                                                         style:UIAlertActionStyleDefault
+                                                       handler:^(UIAlertAction *action){
+                                                           
+                                                       }];
+        [alert addAction:action];
+        [self presentViewController:alert animated:YES completion:^{ }];
+        return;
+    }
+    
+    //生成 auth info 对象
+    APAuthInfo *authInfo = [APAuthInfo new];
+    authInfo.pid = pid;
+    authInfo.appID = appID;
+    
+    //auth type
+    NSString *authType = [[NSUserDefaults standardUserDefaults] objectForKey:@"authType"];
+    if (authType) {
+        authInfo.authType = authType;
+    }
+    
+    //应用注册scheme,在AlixPayDemo-Info.plist定义URL types
+    NSString *appScheme = @"pumengkexi2018";
+    
+    // 将授权信息拼接成字符串
+    NSString *authInfoStr = [authInfo description];
+    NSLog(@"authInfoStr = %@",authInfoStr);
+    
+    // 获取私钥并将商户信息签名,外部商户可以根据情况存放私钥和签名,只需要遵循RSA签名规范,并将签名字符串base64编码和UrlEncode
+    NSString *signedString = nil;
+    APRSASigner* signer = [[APRSASigner alloc] initWithPrivateKey:((rsa2PrivateKey.length > 1)?rsa2PrivateKey:rsaPrivateKey)];
+    if ((rsa2PrivateKey.length > 1)) {
+        signedString = [signer signString:authInfoStr withRSA2:YES];
+    } else {
+        signedString = [signer signString:authInfoStr withRSA2:NO];
+    }
+    
+    // 将签名成功字符串格式化为订单字符串,请严格按照该格式
+    if (signedString.length > 0) {
+        authInfoStr = [NSString stringWithFormat:@"%@&sign=%@&sign_type=%@", authInfoStr, signedString, ((rsa2PrivateKey.length > 1)?@"RSA2":@"RSA")];
+        [[AlipaySDK defaultService] auth_V2WithInfo:authInfoStr
+                                         fromScheme:appScheme
+                                        callback:^(NSDictionary *resultDic) {
+                        NSLog(@"result = %@",resultDic);
+                                               // 解析 auth code
+                        NSString *result = resultDic[@"result"];
+                                               NSString *authCode = nil;
+                                               if (result.length>0) {
+                                                   NSArray *resultArr = [result componentsSeparatedByString:@"&"];
+                                                   for (NSString *subResult in resultArr) {
+                                                       if (subResult.length > 10 && [subResult hasPrefix:@"auth_code="]) {
+                                                           authCode = [subResult substringFromIndex:10];
+                                                           break;
+                                                       }
+                                                   }
+                                               }
+                                               NSLog(@"授权结果 authCode = %@", authCode?:@"");
+                                           }];
+    }
+}
+
+
+
+
+
 
 
 @end
